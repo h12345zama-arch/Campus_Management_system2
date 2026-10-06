@@ -1,90 +1,74 @@
 package com.campus.model;
 
-import com.campus.contract.StudentOperations;
+import jakarta.persistence.*;
 
-public abstract class Student  implements  StudentOperations {
-    //Encapsulation - data hiding
-    // instance variables
-    private int studentid;
-    private String studentname;
+@Entity
+@Table(name = "students")
+public class Student {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(nullable = false)
+    private String name;
+
     private int age;
-    private String department;
-    private int[] marks;
-    
-    // static variables
-    static int studentCount=0;
 
-    // Default constructor
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
     public Student() {
-        studentCount++;
     }
 
-    // parameterized constructor
-    public Student(int studentid, String studentname, int age, String department, int[] marks) {
-        this.studentid = studentid;
-        this.studentname = studentname;
+    public Student(String name, int age, Department department) {
+        this.name = name;
         this.age = age;
         this.department = department;
-        this.marks = marks;
-        studentCount++;
     }
-    //getters - methods to access the instance variables
-    public int getStudentid() {
-        return studentid;
+
+    public Student(int id, String name, int age, Department department) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.department = department;
     }
-    public String getStudentname() {
-        return studentname;
+
+    public int getId() {
+        return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getAge() {
         return age;
     }
-    public String getDepartment() {
-        return department;
-    }
-    public int[] getMarks() {
-        return marks;
-    }
-    //setters - methods to modify the instance variables
-    public void setStudentid(int studentid) {
-        this.studentid = studentid;
-    }
-    public void setStudentname(String studentname) {
-        this.studentname = studentname;
-    }
+
     public void setAge(int age) {
         this.age = age;
     }
-    public void setDepartment(String department) {
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
         this.department = department;
     }
-    public void setMarks(int[] marks) {
-        this.marks = marks;
-    }
 
-    //instance methods - belongs to object
-    public void displayStudentInfo() {
-        System.out.println("Student ID: " + studentid);
-        System.out.println("Student Name: " + studentname);
-        System.out.println("Age: " + age);
-        System.out.println("Department: " + department);
-    }
-
-    public void displayStudentInfo(boolean showMarks) {
-        displayStudentInfo();
-
-        if (showMarks) {
-            System.out.println("Marks: " + java.util.Arrays.toString(marks));
-        }
-    }
-    
-    //abstract method
-    public abstract void studentType();
-
-    //interface methods
-    
-    
-    // static method-belongs to class, not to object
-    public static void displayStudentCount() {
-        System.out.println("Total number of students: " + studentCount);
+    @Override
+    public String toString() {
+        return id + " - " + name + " (" + (department != null ? department.getName() : "None") + ", Age: " + age + ")";
     }
 }
