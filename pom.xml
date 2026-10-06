@@ -41,6 +41,12 @@
             <scope>provided</scope>
 
         </dependency>
+        <!--postgres-->
+        <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>46.2.8</version>
+        </dependency>
 
     </dependencies>
 
